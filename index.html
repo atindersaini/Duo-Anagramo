@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+		<meta name="viewport" content="width=device-width, initial-scale=1"> 
+		<title>Duo-Anagramo for duolingo</title>
+		<link rel="stylesheet" type="text/css" href="css/normalize.css" />
+		<link rel="stylesheet" type="text/css" href="css/demo.css" />
+		<link rel="stylesheet" type="text/css" href="css/component.css" />
+		<script src="js/modernizr.custom.js"></script>
+		<style type="text/css">
+		.bg-yes{
+			background: #abe237;
+		}
+		.bg-no{
+			background: #f29400;
+		}
+		</style>
+
+	</head>
+	<body>
+		<div class="container">
+			<!-- Top Navigation -->
+			<header class="codrops-header">
+				<h1>Duo-Anagramo<!--span>Simplistic, single input view form</span--></h1>	
+			</header>
+			<section id="rocks">
+				<form id="theForm" class="simform" autocomplete="off">
+					<div class="simform-inner">
+						<ol class="questions">
+							<li>
+								<span><label for="q1">Which word is on your mind?</label></span>
+								<input id="q1" name="q1" type="text"/>
+							</li>
+							<li>
+								<span><label for="q2">What do you want to compare it to?</label></span>
+								<input id="q2" name="q2" type="text"/>
+							</li>
+							
+						</ol><!-- /questions -->
+						<button id="btn" class="submit" type="submit">Send words</button>
+						<div class="controls">
+							<button class="next"></button>
+							<div class="progress"></div>
+							<span class="number">
+								<span class="number-current"></span>
+								<span class="number-total"></span>
+							</span>
+							<span class="error-message"></span>
+						</div><!-- / controls -->
+					</div><!-- /simform-inner -->
+					<span class="final-message"></span>
+				</form><!-- /simform -->			
+			</section>
+			
+		</div><!-- /container -->
+		<script src="js/classie.js"></script>
+		<script src="js/stepsForm.js"></script>
+		<script>
+			var theForm = document.getElementById( 'theForm' );
+
+			new stepsForm( theForm, {
+				onSubmit : function( form ) {
+					// hide form
+					classie.addClass( theForm.querySelector( '.simform-inner' ), 'hide' );
+
+					/*
+					form.submit()
+					or
+					AJAX request (maybe show loading indicator while we don't have an answer..)
+					*/
+
+					// let's just simulate something...
+
+					    var q1 = (document.getElementById('q1').value),
+					        q2 = (document.getElementById('q2').value);
+
+					    var isAnagram = (q1.length === q2.length) && (q1.toLowerCase().split('').sort().join('') === q2.toLowerCase().split('').sort().join(''));
+
+					    //alert('Is Anagram: ' + isAnagram);
+
+					    if(isAnagram){
+						
+							var messageEl = theForm.querySelector( '.final-message' );
+							messageEl.innerHTML = '<p><span class="bg-yes">Congratulations!</span> The words are anagrams :)</p><br><a href="javascript:location.reload(true)"> Want to try something else? </a>';
+							classie.addClass( messageEl, 'show' );					    	
+					    }
+					    else{
+					    	var messageEl = theForm.querySelector( '.final-message' );
+							messageEl.innerHTML = '<p><span class="bg-no">Sorry!</span> the words are not anagrams :( <br><br><a href="javascript:location.reload(true)"> Want to try again? </a>';
+							classie.addClass( messageEl, 'show' );
+					    }
+					
+				}
+			} );
+		</script>
+	</body>
+</html>
